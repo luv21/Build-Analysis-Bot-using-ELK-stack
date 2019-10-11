@@ -12,12 +12,22 @@ Having this information accessible at a common place and ability to fetch them e
 
 # Bot Description
 
-We are planning to design and implement a log analysis and error reporting bot which fetches the data from Elasticsearch and presents it to the users in the form of a report. The bot can be integrated into a slack channel where all developers can be informed with the above data and can participate in discussions to debug errors or improve the performance of the software.
+We are planning to design and implement a log analysis and error reporting bot which fetches and parses the Jenkins build logs and presents it to the users in the form of a report. The bot can be integrated into a slack channel where all developers can be informed with the above data and can participate in discussions to debug errors or improve the performance of the software.
 
-Our implementation has a central repository where all the build information from Jenkins is stored and analysed using ELK stack. Our bot fetches the required information from the Elasticsearch and presents a summarized report onto the slack channel of developers. If the Devs want to look at a detailed report of things, they can access the kibana dashboard using the link provided by the bot. Also, the users can request for analysis/report of a particular build by specifying the build number to the bot through the slack channel.
+Our implementation has a central repository where all the build information from Jenkins is stored and analysed using Elasticsearch and Logstash. Our bot fetches generates a report for each build failure and presents it onto the slack channel of developers. If the Devs want to look at a detailed report of things, they can access the bot dashboard.
+
+Jenkins build failures can be categorized into categories like:
+* Code Errors (i.e failed test cases): Semantical Errors, Network request errors, Programatical errors, Dependency errors
+* Jenkins Errors: Missing softwares and packages eg: NPM not found, Missing artifacts, System errors  
+
+Our report will provide analysis of above errors which are occuring the most over the course of multiple build failures. With respect to code errors, we can further classify them into Semantical Errors, Network request errors, Programatical errors, Dependency errors and analyze which test cases fail the most and what types of errors occur the most.
+
+We use Logstash to parse and fiter the logs to fetch the errors and reasons from these logs (Eg: In index.js: Line 26: File not found). Using Elasticsearch, we index this data so that it would be easy for us to query the data to perform aggregate analysis. Our bot will be an application which would query the Elasticsearch to fetch these errors along with the reason of failures, perform analysis of errors, generate the report and post it onto the slack channel. We can also use this same application to provide a more detailed view of the report. Use of Logstash and Elasticsearch will help us store historical data and make the process parsing, filtering and querying easier.
+
+This will help the developers to identify the commom points of failures types of failures and trends in failures. This will give developers a rolled up view of the project and fix the frequently failing components. This type of aggregated analysis is not available in through Jenkins logs where everything is a dump of text. Thus having all the analytics in one place, in a systematic format will also help our cause.   
 
 # Use Cases
-1. Use Case 1:
+1. Use Case 1: Get report of a specific build
     1.  Precondition :  User must have Github APi token in Jenkins, install bot in slack . Also a web hook of Github to Jenkins to capture the commits.
   
     2. Main Flow:User will request the built status by providing the built number. Bot will provide the built status and the error information related to the build.
@@ -30,17 +40,17 @@ Our implementation has a central repository where all the build information from
   
     4. Alternate flow: Build passes successfully and there are no failures.
 
-1. Use Case 2:
-    1.  Precondition : User must install our bot in slack . 
+1. Use Case 2: Detailed report of overall error analysis
+    1.  Precondition : User must install our bot in slack. 
   
     2. Main Flow: User will request the built analysis from the bot . Bot will provide the link to the dashboard with the visualizations displaying the requested built.
   
     3. Subflows:
-        * User will request the built history visualization using the command built_vis@****
+        * User will request the built history visualization using the command show_vis
 
-        * Bot will provide the link to the dashboard presenting different visualizations for the built provided. 
+        * Bot will provide the link to the dashboard presenting visualizations of frequency distribution of errors, statistics on most failing test cases and common errors associated to frequnetly failing test cases. 
 
-1. Use Case 3:
+1. Use Case 3: Build status actions
     1.  Precondition : Install GitHub Jenkins plugin. Jenkins system must have Github API tokens. Github must contain the Jenkins environment URL in the Webhook section. 
   
     2. Main Flow: Users will commit the changes and push it to Github Repository [S1]. Post-Commit webhook will trigger the Build process for Jenkins [S2]. Bot finds out the cause of Build failure [S3]. Highlight the changes by comparing it with previous "Successful Builds" [S4].
@@ -89,10 +99,7 @@ Bot accesses the commit link of the last successful commit and the current faile
 
 ### FileBeat
 
-To export the log information to both the ELK stack and also the bot, we would use fileBeat as a centralized log data store
-
-File beat ships log data to the Logstash, Since filebeat is a pull request there won’t be much load on to the jenkins server. 
-
+To export the log information from Jenkins to Logstash, we would use fileBeat. Filebeat monitors the Jenkins log files and automatically sends the new data to Logstash
 
 ### Logstash
 
@@ -106,13 +113,6 @@ Elasticsearch is an open-source full-text search and analytics engine. We use it
 
 We have the capability to store the log information of multiple users, coming from multiple jenkins servers
 
-Kibana also accesses the information from here as it is structured and can be used for visualization
-
-### Kibana
-
-We are using  an open-source data visualization tool  for log and time-series analytics, application monitoring
-
-Some  features of interest from the users build status can be specifically targeted as data points that are to be visualised by kibana
 
 ### Slack
 
@@ -130,7 +130,7 @@ Using a specific  channel to interact with bot to get information. Slack acts as
 
 ![Constraint 2](/Images/Constraints2.png)
 
-3. Delay in letting the users know the status of Build due to the latency induced by ELK Stack (Elasticsearch, Logstash, and Kibana).
+3. Delay in letting the users know the status of Build due to the latency induced by ELK Stack (Elasticsearch, Logstash).
 
 ## Additional patterns
 
