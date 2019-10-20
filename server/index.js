@@ -1,3 +1,5 @@
+const data  = require('./data');
+const messages = require('./messages')
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
@@ -32,4 +34,38 @@ app.post("/", (req, res) => {
       res.json();
     }
   );
+});
+
+app.post("/complete", (req, res) => {
+
+  let body;
+  if(req.body.build.status==='SUCCESS'){
+    body =  messages.successMessage(req.body)
+  }
+  else{
+    let temp = data.getBuild(req.body.name)
+    body = messages.faiureMessage(temp)
+  }
+  console.log(req.body.build.status, body)
+
+  // let body = {
+  //   text: "Botwa to the rescue :rhinoceros:",
+  //   attachments: [
+  //     {
+  //       text: "Let's defeat Thanos!!! :dog: :dog: :dog:"
+  //     }
+  //   ]
+  // };
+
+  // request.post(
+  //   {
+  //     headers: { "content-type": "application/json" },
+  //     url: req.body.response_url,
+  //     body: JSON.stringify(body)
+  //   },
+  //   (error, response, body) => {
+  //     console.log("response: ", response.statusCode);
+  //     res.json();
+  //   }
+  // );
 });

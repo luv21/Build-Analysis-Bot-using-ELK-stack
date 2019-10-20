@@ -1,0 +1,26 @@
+{
+    "build1":{
+        "name": "build1",
+        "errors":[
+            {
+                "text":"File Not found",
+                "file":"index.js",
+                "location": "line 23"
+            },
+            {
+                "text":"Invalid network request",
+                "file":"test.js",
+                "location": "line 54"
+            },
+            {
+                "text":"NPM ERR",
+                "file":"",
+                "location": ""
+            }
+        ]
+    },
+    "build2":{
+        "name": "build2",
+        "errors": []
+    }
+}
