@@ -47,15 +47,6 @@ app.post("/complete", (req, res) => {
     let temp = data.getBuild(req.body.name)
     body = messages.faiureMessage(temp)
   }
-  console.log(req.body.build.status, config.HOOK_URL)
-  // body = {
-  //   text: "Botwa to the rescue :rhinoceros:",
-  //   attachments: [
-  //     {
-  //       text: "Let's defeat Thanos!!! :dog: :dog: :dog:"
-  //     }
-  //   ]
-  // }
   request.post(
     {
       headers: { "content-type": "application/json" },
