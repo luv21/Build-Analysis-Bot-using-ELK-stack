@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const config = require('./credentials.json');
+const data1 = require('./data1.js')
 
 // Creates express app
 const app = express(); // The port used for Express server
@@ -42,20 +43,33 @@ app.post("/complete", (req, res) => {
   let body;
   if(req.body.build.status==='SUCCESS'){
     body =  messages.successMessage(req.body)
+    request.post(
+      {
+        headers: { "content-type": "application/json" },
+        url: config.HOOK_URL,
+        body: JSON.stringify(body)
+      },
+      (error, response, body) => {
+        console.log("response: ", response.statusCode);
+        res.json();
+      }
+    );
   }
   else{
-    let temp = data.getBuild(req.body.name)
-    body = messages.faiureMessage(temp)
+    let temp =  data1.getBuild(req.body.name);
+    temp.then(function(results){
+      body = messages.faiureMessage(results)
+      request.post(
+       {
+          headers: { "content-type": "application/json" },
+          url: config.HOOK_URL,
+          body: JSON.stringify(body)
+        },
+        (error, response, body) => {
+          console.log("response: ", response.statusCode);
+          res.json();
+        }
+      );
+    })
   }
-  request.post(
-    {
-      headers: { "content-type": "application/json" },
-      url: config.HOOK_URL,
-      body: JSON.stringify(body)
-    },
-    (error, response, body) => {
-      console.log("response: ", response.statusCode);
-      res.json();
-    }
-  );
 });
