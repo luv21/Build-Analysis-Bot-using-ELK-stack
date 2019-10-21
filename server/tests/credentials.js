@@ -1,7 +1,7 @@
 module.exports = {
 
     workspace: 'se-botwa.slack.com',
-    username: 'lkhuran@ncsu.edu',
-    password: 'behappy30',
+    username: 'sjbondu@ncsu.edu',
+    password: 'Itachi@05',
     command:  '\bot-assemble'
   }
