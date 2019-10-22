@@ -1,15 +1,23 @@
 const nock = require("nock")
 const got  = require('got');
 const data = require("./mock_data/elasticMock.json")
-urlRoot = "https://35.208.168.86:9200"
+const status = require("./mock_data/statusMock.json")
+const token = "11773feb2a68f9bf46dc09be04f432b9cc"
+urlRoot_elastic = "https://35.208.168.86:9200"
+urlRoot_jenkins = "https://35.208.168.86:8080"
 
-var elasticsearchmock = nock(urlRoot)
+var elasticsearchmock = nock(urlRoot_elastic)
     .persist()
-	.get("/jenkins/_doc/0?_source=false&pretty")
-	.reply(200, JSON.stringify(data.build1))
+	.get("/build/_doc/0?_source=false&pretty")
+    .reply(200, JSON.stringify(data.build1))
+    
+var jenkinsmock = nock(urlRoot_jenkins)
+    .persist()
+	.get("/job/SE-Project-Test/1/api/json?pretty=true&tree=result")
+	.reply(200, JSON.stringify(status.result))
 
 async function getBuild() {
-    const url = urlRoot + "/jenkins/_doc/0?_source=false&pretty";
+    const url = urlRoot + "/build/_doc/0?_source=false&pretty";
     const options = {
         method: 'GET',
         headers: {
@@ -23,4 +31,21 @@ async function getBuild() {
     return response;
 }
 
+async function getStatus() {
+    const url = urlRoot + "/job/SE-Project-Test/1/api/json?pretty=true&tree=result";
+    const options = {
+        method: 'GET',
+        headers: {
+            "content-type": "application/json",
+            "Authorization": `admin:${token}`
+        },
+        json: true
+    };
+    
+    // Send a http request to url
+    let response = (await got(url, options)).body;
+    return response;
+}
+
 exports.getBuild = getBuild;
+exports.getStatus = getStatus;
