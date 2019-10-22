@@ -1,4 +1,4 @@
-  "_class" : "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+{  "_class" : "org.jenkinsci.plugins.workflow.job.WorkflowJob",
   "actions" : [
     {
 
@@ -149,7 +149,6 @@
     "url" : "http://35.208.168.86:8080/job/SE-Project-Test/11/"
   },
   "lastSuccessfulBuild" : {
-100  4716  100  4716    0     0  49642      0 --:--:-- --:--:-- --:--:-- 50170,
     "number" : 11,
     "url" : "http://35.208.168.86:8080/job/SE-Project-Test/11/"
   },
