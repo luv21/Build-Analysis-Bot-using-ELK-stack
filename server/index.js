@@ -16,12 +16,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.post("/", (req, res) => {
 
-  let body;
-  let build_name = req.body.command.split(" ")[1];
-  console.log(req.body.command.split(" "));
-  let temp = data.getBuild(build_name); //extract b-name from request //command <build2> - extract
-
-
+  let body; 
+  let build_name = req.body.text.split(" ")[0];
+  console.log(build_name);
+  let action_name = req.body.text.split(" ")[1];
+  console.log(action_name); //action name is status
+  let temp = data.getBuild(build_name,action_name); //extract b-name from request //command <build2> - extract
 
   if(temp.status==='SUCCESS'){
     body =  messages.successMessage(temp)

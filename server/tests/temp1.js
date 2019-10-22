@@ -1,4 +1,3 @@
-
 const puppeteer = require('puppeteer');
 const C = require('./credentials.js');
 const workspace_url = '#domain';
