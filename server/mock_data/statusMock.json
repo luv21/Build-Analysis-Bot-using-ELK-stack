@@ -1,4 +1,5 @@
-  "_class" : "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+{
+"_class" : "org.jenkinsci.plugins.workflow.job.WorkflowRun",
   "actions" : [
     {
       "_class" : "hudson.model.CauseAction",
