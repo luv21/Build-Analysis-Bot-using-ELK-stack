@@ -1,4 +1,3 @@
-const data  = require('./data');
 const messages = require('./messages')
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -19,10 +18,12 @@ app.post("/", (req, res) => {
 
   let body; 
   let build_name = req.body.text.split(" ")[0];
-  console.log(build_name);
+  // console.log(build_name);
   let action_name = req.body.text.split(" ")[1];
-  console.log(action_name); //action name is status
-  let temp = data.getBuild(build_name,action_name); //extract b-name from request //command <build2> - extract
+ // console.log(action_name); //action name is status
+  let temp = data1.getBuild(build_name)
+   //extract b-name from request //command <build2> - extract
+  
 
   if(temp.status==='SUCCESS'){
     body =  messages.successMessage(temp)
@@ -63,6 +64,7 @@ app.post("/complete", (req, res) => {
     );
   }
   else{
+
     let temp =  data1.getBuild(req.body.name);
     temp.then(function(results){
       body = messages.faiureMessage(results)
