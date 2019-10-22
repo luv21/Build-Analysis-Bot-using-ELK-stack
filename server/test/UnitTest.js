@@ -1,7 +1,7 @@
 const chai = require("chai");
 const expect = chai.expect;
 const nock = require("nock");
-const data1 = require("../../data1.js");
+const data1 = require("../data1.js");
 
 
 // Load mock data
@@ -51,24 +51,6 @@ describe('testMain', function () {
       let getBuild = await data1.getBuild();
       expect(getBuild).to.equal(4);
     });
-
-  });
-
-  describe('#titleBodyWordCountRatio()', function () {
-
-    const issue0 = nock("https://api.github.com")
-      .get("/repos/testuser/Hello-World/issues/0")
-      .reply(200, JSON.stringify(data.issueList[0]));
-
-    it('ration should be .5 for issue #0', async function() {
-      let titleBodyWordCountRatio = await main.titleBodyWordCountRatio("testuser", "Hello-World", 0);
-      expect(titleBodyWordCountRatio).to.equal("0.5");
-    }); 
-
-    it('should handle empty body for issue #2', async function () {
-      let titleBodyWordCountRatio = await main.titleBodyWordCountRatio("testuser", "Hello-World", 2);
-      expect(titleBodyWordCountRatio).to.equal("NA");
-    }); 
 
   });
 
