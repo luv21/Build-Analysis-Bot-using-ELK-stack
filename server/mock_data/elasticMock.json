@@ -1,7 +1,7 @@
 {
     "build1":{
         "name": "build1",
-        "status":"FAILED",
+        "status": "FAILURE",
         "errors":[
             {
                 "text":"File Not found",
@@ -22,7 +22,7 @@
     },
     "build2":{
         "name": "build2",
-        "status":"SUCCESS",
+        "status": "SUCCESSS",
         "errors": []
     }
 }
