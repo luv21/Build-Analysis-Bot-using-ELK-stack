@@ -18,6 +18,13 @@ module.exports = {
       text: `Build ${elastic.name} Failed with ${count} errors :cry: :cry: :cry: Find details below`,
       attachments: errors
     };
+  },
+
+  composeDashboardURL: (buildName, url) =>{
+    return {
+      text: `To access analysis for ${buildName}, use ${url}`,
+      attachments:[]
+    };
   }
 };
 //curl -X POST -H 'Content-type: application/json' --data '{"name": "build1","url": "job/asgard/", "build": {"full_url": "http://localhost:8080/job/asgard/18/", "number": 18,"phase": "COMPLETED","status": "SUCCESsS","url": "job/asgard/18/","scm": {"url": "https://github.ncsu.edu/csc510-fall2019/CSC510-26.git","branch": "origin/master", "commit": "b769b2c1e30e628f1261668bc6ea908e84986291"}}}' localhost:3000/complete

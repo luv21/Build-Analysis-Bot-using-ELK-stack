@@ -1,7 +1,8 @@
 {
     "build1":{
         "name": "build1",
-        "status":"FAILED",
+        "status": "FAILURE",
+        "dashboard_url":"localhost:3000",
         "errors":[
             {
                 "text":"File Not found",
@@ -22,7 +23,8 @@
     },
     "build2":{
         "name": "build2",
-        "status":"SUCCESS",
+        "status": "SUCCESSS",
+        "dashboard_url":"localhost:3000",
         "errors": []
     }
 }
