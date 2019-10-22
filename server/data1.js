@@ -6,23 +6,13 @@ const token = "11773feb2a68f9bf46dc09be04f432b9cc"
 urlRoot_elastic = "https://35.208.168.86:9200"
 urlRoot_jenkins = "https://35.208.168.86:8080"
 
-// var elasticsearchmock = nock(urlRoot_elastic)
-//     .persist()
-//     .get("/build1/_doc/0?_source=false&pretty")
-//     .reply(200, JSON.stringify(data.build1))
-
-var jenkinsmock = nock(urlRoot_jenkins)
-    .persist()
-    .get("/job/SE-Project-Test/1/api/json?pretty=true&tree=result")
-    .reply(200, JSON.stringify(status.result))
-
 async function getBuild(jobname) {
     var elasticsearchmock = nock(urlRoot_elastic)
         .persist()
         .get("/build1/_doc/0?_source=false&pretty")
         .reply(200, JSON.stringify(data[jobname]))
 
-    const url = urlRoot_elastic + "/build1/_doc/0?_source=false&pretty";
+    const url = urlRoot_elastic + "/"+jobname+"/_doc/0?_source=false&pretty";
     const options = {
         method: 'GET',
         headers: {
@@ -39,6 +29,12 @@ async function getBuild(jobname) {
 
 
 async function getStatus() {
+
+    var jenkinsmock = nock(urlRoot_jenkins)
+    .persist()
+    .get("/job/SE-Project-Test/1/api/json?pretty=true&tree=result")
+    .reply(200, JSON.stringify(status.result))
+
     const url = urlRoot_jenkins + "/job/SE-Project-Test/1/api/json?pretty=true&tree=result";
     const options = {
         method: 'GET',
