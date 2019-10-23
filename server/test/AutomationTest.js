@@ -10,6 +10,7 @@ const USERNAME_SELECTOR = '#email';
 const PASSWORD_SELECTOR = '#password';
 const CTA_SELECTOR = '#signin_btn';
 const url = 'https://slack.com/signin'
+//const message = 'Output Text'
 
 const assert = require('assert')
 const puppeteer = require('puppeteer')
@@ -57,6 +58,7 @@ describe('Browser Automated testing for USe case 1 and 2', () => {
         await page.keyboard.press('Enter');
         await page.keyboard.press('Enter');
         await page.waitFor(10000);
+        //assert.equal(message,"Output Text");
 
 
     }).timeout(100000)
@@ -72,7 +74,10 @@ describe('Browser Automated testing for USe case 1 and 2', () => {
         await page.keyboard.type(C.command + " " + C.URL_fail);
         await page.keyboard.press('Enter');
         await page.keyboard.press('Enter');
-        await page.waitFor(10000);
+        await page.waitFor(5000);
+        await page.goto("http://se-slack-botwa.s3-website-us-east-1.amazonaws.com");
+        await page.waitFor(5000);
+
     }).timeout(100000)
 
 });
