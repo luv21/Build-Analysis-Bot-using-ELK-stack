@@ -19,95 +19,81 @@ let browser
 let page
 
 async function startBrowser() {
-  const browser = await puppeteer.launch({ headless: false });
-  const page = await browser.newPage();
-  return { browser, page };
+    const browser = await puppeteer.launch({ headless: false });
+    const page = await browser.newPage();
+    return { browser, page };
 }
 
 async function closeBrowser(browser) {
-  return browser.close();
+    return browser.close();
 }
 
+before(async () => {
+    browser = await puppeteer.launch({ headless: false })
+    page = await browser.newPage()
+})
 
-describe('Use Case Name', async (url) => {
-  it('Post the  success status of the build on user request ', async () => {
-    const { browser, page } = await startBrowser();
-    await page.goto(C.url);
-    await page.click(workspace_url);
-    await page.keyboard.type(C.workspace);
-    await page.click(TEAM_BUTTON);
-    //await page.waitForNavigation();
-    await page.waitFor(1000);
-    await page.click("#email");
-    await page.keyboard.type(C.username);
-    await page.click(PASSWORD_SELECTOR);
-    await page.keyboard.type(C.password);
-    await page.click(CTA_SELECTOR);
-    await page.waitFor(1000);
+describe('Browser Automated testing for USe case 1 and 2', () => {
+    // it('returns Chrome Puppeteer Github repo as first search result', async () => {
+    //     await page.goto('https://duckduckgo.com/', { waitUntil: 'networkidle2' })
+    //     await page.type('input#search_form_input_homepage', 'chrome puppeteer', { delay: 50 })
+    //     await page.click('input#search_button_homepage')
+    //     await page.waitForSelector('.results--main #r1-0')
+    //     const githubLink = await page.evaluate(() => document.querySelector('a.result__a').textContent.trim())
+    //     assert(githubLink, 'https://github.com/GoogleChrome/puppeteer')
+    //     await page.screenshot({ path: 'duckduckgo.png' })
+    // }).timeout(10000)
 
-    // const title = await page.$x(linkselector);
-    // let text = await page.evaluate(linkselector => linkselector.textContent, title[6]);
-    // console.log(text)
+    it('Post the  failure status of the build on user request ', async () => {
+        // await page.goto(C.url, { waitUntil: 'networkidle2' })
+        // await page.click(workspace_url);
+        // await page.keyboard.type(C.workspace);
 
-    await page.goto("https://se-botwa.slack.com/messages/CPDF945Q9");
-    await page.waitFor(5000);
-    await page.click('#undefined > p');
-    await page.keyboard.type(C.command + " " + build_pass);
-    await page.keyboard.press('Enter');
-    await page.keyboard.press('Enter');
-    await page.waitFor(10000);
+        // await page.click(TEAM_BUTTON);
 
-    await page.evaluate(() => document.querySelector('c-virtual_list__scroll_container').click());
-    content = await page.evaluate(() => document.querySelector('c-virtual_list__scroll_container').innerHTML);
-    assert.equal(content, [])
+        // // await page.waitForNavigation();
+        // await page.waitFor(1000);
+        await page.goto("https://se-botwa.slack.com/messages/CPDF945Q9", { waitUntil: 'networkidle2' });
+        await page.click("#email");
 
+        await page.keyboard.type(C.username);
 
+        await page.click(PASSWORD_SELECTOR);
 
+        await page.keyboard.type(C.password);
 
+        await page.click(CTA_SELECTOR);
 
+        await page.waitFor(5000);
+        await page.click('#undefined > p');
 
+        await page.keyboard.type(C.command + " " + C.build_fail);
 
-
-
-  });
-
-  it('Post the  success status of the build on user request ', async () => {
-
-    await page.goto(C.url);
-    await page.click(workspace_url);
-    await page.keyboard.type(C.workspace);
-    await page.click(TEAM_BUTTON);
-    //await page.waitForNavigation();
-    await page.waitFor(1000);
-    await page.click("#email");
-    await page.keyboard.type(C.username);
-    await page.click(PASSWORD_SELECTOR);
-    await page.keyboard.type(C.password);
-    await page.click(CTA_SELECTOR);
-    await page.waitFor(1000);
-
-    // const title = await page.$x(linkselector);
-    // let text = await page.evaluate(linkselector => linkselector.textContent, title[6]);
-    // console.log(text)
-
-    await page.goto("https://se-botwa.slack.com/messages/CPDF945Q9");
-    await page.waitFor(5000);
-    await page.click('#undefined > p');
-    await page.keyboard.type(C.command + " " + build_fail);
-    await page.keyboard.press('Enter');
-    await page.keyboard.press('Enter');
-    await page.waitFor(10000);
-
-    await page.evaluate(() => document.querySelector('c-virtual_list__scroll_container').click());
-    content = await page.evaluate(() => document.querySelector('c-virtual_list__scroll_container').innerHTML);
-    assert.equal(content, [])
+        // 
+        await page.keyboard.press('Enter');
+        await page.keyboard.press('Enter');
+        await page.waitFor(10000);
 
 
+    }).timeout(100000)
+    // })
+    it('Post the  success status of the build on user request ', async () => {
+        await page.keyboard.type(C.command + " " + C.build_pass);
+        await page.keyboard.press('Enter');
+        await page.keyboard.press('Enter');
+        await page.waitFor(10000);
+    }).timeout(100000)
 
-  });
+    it('Get URL for dashboard', async () => {
+        await page.keyboard.type(C.command + " " + C.URL_fail);
+        await page.keyboard.press('Enter');
+        await page.keyboard.press('Enter');
+        await page.waitFor(10000);
+    }).timeout(100000)
+
 });
 
-(async () => {
-  //await playTest("https://slack.com/signin");
-  process.exit(1);
-})();
+after(async () => {
+    await browser.close()
+})
+

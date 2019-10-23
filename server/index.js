@@ -22,9 +22,10 @@ app.post("/", (req, res) => {
   // console.log(action_name); //action name is status
   data1.getBuild(build_name).then(temp => {
     //extract b-name from request //command <build2> - extract
-
-    if (action_name.equalsIgnoreCase("analysis")) {
-      if (!temp) body = messages.composeDashboardURL(build_name, temp.dashboard_url);
+    console.log("name",action_name)
+    if (action_name==="analysis") {
+      body = messages.composeDashboardURL(build_name, temp.dashboard_url);
+      console.log("body", body)
     } else {
       if (temp.status === "SUCCESS") {
         body = messages.successMessage(temp);
@@ -40,7 +41,7 @@ app.post("/", (req, res) => {
         body: JSON.stringify(body)
       },
       (error, response, body) => {
-        console.log("response: ", response.statusCode);
+        // console.log("response: ", response.statusCode);
         res.json();
       }
     );
@@ -58,7 +59,7 @@ app.post("/complete", (req, res) => {
         body: JSON.stringify(body)
       },
       (error, response, body) => {
-        console.log("response: ", response.statusCode);
+        // console.log("response: ", response.statusCode);
         res.json();
       }
     );
@@ -73,7 +74,7 @@ app.post("/complete", (req, res) => {
           body: JSON.stringify(body)
         },
         (error, response, body) => {
-          console.log("response: ", response.statusCode);
+          // console.log("response: ", response.statusCode);
           res.json();
         }
       );
