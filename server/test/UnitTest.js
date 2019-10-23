@@ -8,7 +8,7 @@ const request = require("request");
 // // TEST SUITE FOR MOCHA
 // ///////////////////////////
 
-// describe('testMain', function () {
+describe('testMain', function () {
 
   describe('UseCase-1 getBuild()', function () {
     // TEST CASE
@@ -27,13 +27,38 @@ const request = require("request");
     });
 
     // TEST CASE...
-    it('should find build status as FAILURE', async function () {
+    it('should find build1 status as FAILURE', async function () {
       // it is also possible to just return a promise, without using done.mostFrequentAssigneemostFrequentAssignee
       let getBuild = await data1.getBuild("build1");
       expect(getBuild.status).to.equal("FAILURE");
     });
 
-//   });
+    it('should find build2 status as SUCCESS - Alternate Flow', async function () {
+      // it is also possible to just return a promise, without using done.mostFrequentAssigneemostFrequentAssignee
+      let getBuild = await data1.getBuild("build2");
+      expect(getBuild.status).to.equal("SUCCESS");
+    });
+
+  });
+
+  describe('UseCase-2 Analysis()', function () {
+    // runs before all tests in this block1
+    let data = { "text": "build1 analysis"}
+
+    it('Post Dashboard URL to slack channel to access build information ', function (done) {
+      request.post(
+        {
+          headers: { "content-type": "application/json" },
+          url: "http://localhost:3000",
+          body: JSON.stringify(data)
+        },
+        (error, response, body) => {
+          //console.log(response.body)
+          expect(response.body).to.equal("http://se-slack-botwa.s3-website-us-east-1.amazonaws.com");
+      });
+      done();
+    });
+  });
 
   describe('UseCase-3 JenkinsTrigger()', function () {
       // runs before all tests in this block1
@@ -48,11 +73,9 @@ const request = require("request");
         },
         (error, response, body) => {
           expect(response.statusCode).to.equal(200);
-          done()
         }
       )
+      done();
     });
-
   });
-
 });

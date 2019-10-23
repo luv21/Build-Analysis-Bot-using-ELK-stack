@@ -34,25 +34,9 @@ before(async () => {
 })
 
 describe('Browser Automated testing for USe case 1 and 2', () => {
-    // it('returns Chrome Puppeteer Github repo as first search result', async () => {
-    //     await page.goto('https://duckduckgo.com/', { waitUntil: 'networkidle2' })
-    //     await page.type('input#search_form_input_homepage', 'chrome puppeteer', { delay: 50 })
-    //     await page.click('input#search_button_homepage')
-    //     await page.waitForSelector('.results--main #r1-0')
-    //     const githubLink = await page.evaluate(() => document.querySelector('a.result__a').textContent.trim())
-    //     assert(githubLink, 'https://github.com/GoogleChrome/puppeteer')
-    //     await page.screenshot({ path: 'duckduckgo.png' })
-    // }).timeout(10000)
 
     it('Post the  failure status of the build on user request ', async () => {
-        // await page.goto(C.url, { waitUntil: 'networkidle2' })
-        // await page.click(workspace_url);
-        // await page.keyboard.type(C.workspace);
 
-        // await page.click(TEAM_BUTTON);
-
-        // // await page.waitForNavigation();
-        // await page.waitFor(1000);
         await page.goto("https://se-botwa.slack.com/messages/CPDF945Q9", { waitUntil: 'networkidle2' });
         await page.click("#email");
 
@@ -96,4 +80,3 @@ describe('Browser Automated testing for USe case 1 and 2', () => {
 after(async () => {
     await browser.close()
 })
-
