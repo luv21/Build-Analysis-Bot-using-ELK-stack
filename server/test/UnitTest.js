@@ -10,7 +10,7 @@ const request = require("request");
 
 describe('testMain', function () {
 
-  describe('UseCase-1 getBuild()', function () {
+  describe('getBuild()', function () {
     // TEST CASE
     it('should return valid Build properties', function (done) {
 
@@ -41,7 +41,7 @@ describe('testMain', function () {
 
   });
 
-  describe('UseCase-2 Analysis()', function () {
+  describe('Analysis()', function () {
     // runs before all tests in this block1
     let data = { "text": "build1 analysis"}
 
@@ -60,11 +60,11 @@ describe('testMain', function () {
     });
   });
 
-  describe('UseCase-3 JenkinsTrigger()', function () {
+  describe('JenkinsTrigger()', function () {
       // runs before all tests in this block1
       let data = { "name": "build1", "url": "job/asgard/", "build": { "full_url": "http://localhost:8080/job/asgard/18/", "number": 18, "phase": "COMPLETED", "status": "FAILURE", "url": "job/asgard/18/", "scm": { "url": "https://github.ncsu.edu/csc510-fall2019/CSC510-26.git", "branch": "origin/master", "commit": "b769b2c1e30e628f1261668bc6ea908e84986291" } } }
 
-    it('Post Build status to slack channel ', function (done) {
+    it('Post Build status to slack channel once the execution is completed', function (done) {
       request.post(
         {
           headers: { "content-type": "application/json" },
