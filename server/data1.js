@@ -9,7 +9,7 @@ urlRoot_jenkins = "https://35.208.168.86:8080"
 async function getBuild(jobname) {
     var elasticsearchmock = nock(urlRoot_elastic)
         .persist()
-        .get("/build1/_doc/0?_source=false&pretty")
+        .get("/"+jobname+"/_doc/0?_source=false&pretty")
         .reply(200, JSON.stringify(data[jobname]))
 
     const url = urlRoot_elastic + "/"+jobname+"/_doc/0?_source=false&pretty";
@@ -23,7 +23,6 @@ async function getBuild(jobname) {
 
     // Send a http request to url
     let response = (await got(url, options)).body;
-    console.log(response)
     return response;
 }
 
