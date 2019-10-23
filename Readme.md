@@ -6,3 +6,5 @@
 4. Karthick Vadrayan Arya (karya2)
 
 [Design file link](DESIGN.md)
+
+[BOT link](BOT.md)
