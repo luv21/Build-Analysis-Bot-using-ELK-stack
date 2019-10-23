@@ -23,6 +23,7 @@ async function getBuild(jobname) {
 
     // Send a http request to url
     let response = (await got(url, options)).body;
+    // console.log(response)
     return response;
 }
 

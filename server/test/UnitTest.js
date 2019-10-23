@@ -4,11 +4,11 @@ const data1 = require("../data1.js");
 const index1 = require("../index.js");
 const request = require("request");
 
-///////////////////////////
-// TEST SUITE FOR MOCHA
-///////////////////////////
+// ///////////////////////////
+// // TEST SUITE FOR MOCHA
+// ///////////////////////////
 
-describe('testMain', function () {
+// describe('testMain', function () {
 
   describe('UseCase-1 getBuild()', function () {
     // TEST CASE
@@ -33,7 +33,7 @@ describe('testMain', function () {
       expect(getBuild.status).to.equal("FAILURE");
     });
 
-  });
+//   });
 
   describe('UseCase-3 JenkinsTrigger()', function () {
       // runs before all tests in this block1
