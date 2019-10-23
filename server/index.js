@@ -5,6 +5,7 @@ const request = require("request");
 const config = require("./credentials.json");
 const data1 = require("./data1.js");
 
+let mock1;
 // Creates express app
 const app = express(); // The port used for Express server
 const PORT = 3000; // Starts server
@@ -42,6 +43,7 @@ app.post("/", (req, res) => {
       },
       (error, response, body) => {
         // console.log("response: ", response.statusCode);
+        //console.log("response: ", response.statusCode);
         res.json();
       }
     );
@@ -59,8 +61,8 @@ app.post("/complete", (req, res) => {
         body: JSON.stringify(body)
       },
       (error, response, body) => {
-        // console.log("response: ", response.statusCode);
-        res.json();
+        console.log("response: ", response.statusCode);
+        res.send(response);
       }
     );
   } else {
@@ -74,8 +76,11 @@ app.post("/complete", (req, res) => {
           body: JSON.stringify(body)
         },
         (error, response, body) => {
-          // console.log("response: ", response.statusCode);
-          res.json();
+          mock1 = response.statusCode;
+          // console.log(mock1)
+          //console.log("response: ", response.statusCode);
+
+          res.send(response);
         }
       );
     });
