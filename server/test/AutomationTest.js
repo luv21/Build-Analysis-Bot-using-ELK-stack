@@ -1,19 +1,19 @@
-//npm install 
+// //npm install 
 
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
 
-(async () => {
+// (async () => {
 
-    const browser = await puppeteer.launch({headless:false});
+//     const browser = await puppeteer.launch({headless:false});
 
-    const page = await browser.newPage();
+//     const page = await browser.newPage();
 
-    await page.goto("https://slack.com/signin");
+//     await page.goto("https://slack.com/signin");
 
-    //await page.screenshot({path: 'example.png'});
-
-
-    await browser.close();
+//     //await page.screenshot({path: 'example.png'});
 
 
-})();
+//     await browser.close();
+
+
+// })();
