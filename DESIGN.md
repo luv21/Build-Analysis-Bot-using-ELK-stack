@@ -33,33 +33,33 @@ This will help the developers to identify the commom points of failures types of
     2. Main Flow:User will request the built status by providing the built number. Bot will provide the built status and the error information related to the build.
   
     3. Subflows:
-        * User provides the built no with @built@****
+        * User enters slack command `/bot-assemble <build_name> status`
 
-        * Bot will provide the the status along with other parameters related to this particular build. If the build fails then bot will the provide the reason of failure and file associated with it.
-
+        * Bot will provide the report of this particular build with details like files in which it failed and reasons why it failed.
   
-    4. Alternate flow: Build passes successfully and there are no failures.
+    4. Alternate flow: Build passes successfully and there are no failures it will give the link to thr PR.
 
-1. Use Case 2: Detailed report of overall error analysis
+1. Use Case 2: Analysis of overall aggregated build failures
     1.  Precondition : User must install our bot in slack. 
   
-    2. Main Flow: User will request the built analysis from the bot . Bot will provide the link to the dashboard with the visualizations displaying the requested built.
+    2. Main Flow: User will request the built analysis from the bot from slack . Bot will provide the link to the dashboard with the visualizations displaying the error analysis.
   
     3. Subflows:
-        * User will request the built history visualization using the command show_vis
+        * User will request the built history visualization using the command `/bot-assemble <build_name> analysis`
 
         * Bot will provide the link to the dashboard presenting visualizations of frequency distribution of errors, statistics on most failing test cases and common errors associated to frequnetly failing test cases. 
 
 1. Use Case 3: Build status actions
     1.  Precondition : Install GitHub Jenkins plugin. Jenkins system must have Github API tokens. Github must contain the Jenkins environment URL in the Webhook section. 
   
-    2. Main Flow: Users will commit the changes and push it to Github Repository [S1]. Post-Commit webhook will trigger the Build process for Jenkins [S2]. Bot finds out the cause of Build failure [S3]. Highlight the changes by comparing it with previous "Successful Builds" [S4].
+    2. Main Flow: Users will commit the changes and push it to Github Repository [S1]. Post-Commit webhook will trigger the Build process for Jenkins [S2]. Bot fetches the data of the recently completed build from elastic to perform analysis. Once the bot has a compliation of analysis for the current build, it will post onto the slack channel.
   
     3. Subflows:
         * [S1] User will commit the changes by using the command "git push origin master" in the current repo folder.
         * [S2] User must have integrated the Jenkins with Github using Post-Commit Webhook. This will trigger a new build for Jenkins as soon as Github receives the push.
-        * [S3] The logs of build jobs are parsed and checked if they are breaking due to the same reason (e.g., compilation failure, test execution failure, dependency resolution failure, file missing). 
-        * [S4] Bot then identifies the files by generating an SHA and compares it with previous successful commits to show the difference in between the files.
+        * [S3] Jenkins sends a trigger to bot stating that the build is complete.
+        * [S4] Bot fetches data related to that build from elasticsearch
+        * [S5] Bot posts the report onto the slack channel
     4. Alternate Flow:  Build is currently in "Successful" status.
 
 # Design Sketches
