@@ -7,10 +7,17 @@ var client = new elasticsearch.Client( {
   ]
 });
 
+/**
+ * 
+ */
 client.cluster.health({},function(err,resp,status) {  
     console.log("-- Client Health --",resp);
 });
 
+/**
+ * Creates a index for a document in the elasticsearch
+ * @param {*} job_id 
+ */
 export function createDocument(job_id){
     client.index({  
         index: 'test',
@@ -24,6 +31,12 @@ export function createDocument(job_id){
       });
 }
 
+
+/**
+ * Delete data of a specific Jenkins job
+ * @param {*} job_id - ID of the Jenkins Job 
+ * @return {resp} - response from elastic search which denotes of the operation is complete or not 
+ */
 export function deleteDocument(job_id){
     client.delete({  
         index: 'test',
@@ -31,9 +44,15 @@ export function deleteDocument(job_id){
         type: 'sub_type'
       },function(err,resp,status) {
           console.log(resp);
+          return resp;
       });
 }
 
+ /**
+  * Fetches detials of a particular Jenkins Job
+  * @param {*} jobID  - Job ID of the jenkins job whose data we want to fetch
+  * @returns {response} - returns the data of the job obtained from the elasticsearch
+  */
 export function searchDocument(jobID){
     client.search({  
         index: 'test',
@@ -54,6 +73,7 @@ export function searchDocument(jobID){
             response.hits.hits.forEach(function(hit){
               console.log(hit);
             })
+            return response;
           }
       });
 }
