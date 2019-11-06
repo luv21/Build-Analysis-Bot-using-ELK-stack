@@ -78,7 +78,6 @@ app.post("/complete", (req, res) => {
           mock1 = response.statusCode;
           // console.log(mock1)
           //console.log("response: ", response.statusCode);
-
           res.send(response);
         }
       );
