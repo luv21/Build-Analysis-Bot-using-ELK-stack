@@ -30,9 +30,9 @@ function getBotwaOptions()
 function post_to_botwa(current_build_number, current_build_status)
 {
     var options = getBotwaOptions();
-    console.log(current_build_number);
-    console.log(options);
-    request.post(options,{json:{build_no:current_build_number,build_status:current_build_status}}, function(error, response, body){
+    //console.log(current_build_number);
+    //console.log(options);
+    request.post(botwa_config.url, { json: [{build_no:current_build_number},{build_status:current_build_status}] }, function(error, response, body){
         if (error) {
             console.error(error)
             return

@@ -88,7 +88,7 @@ app.post("/complete", (req, res) => {
 
 app.post("/jenkins", (req, res) => {
   let body;
-  console.log(body);
+  console.log(req.body)
   res.send("OK")
 });
 
