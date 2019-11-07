@@ -1,30 +1,31 @@
 {
-    "build1":{
-        "name": "build1",
-        "status": "FAILURE",
-        "dashboard_url":"http://se-slack-botwa.s3-website-us-east-1.amazonaws.com",
-        "errors":[
-            {
-                "text":"File Not found",
-                "file":"index.js",
-                "location": "line 23"
-            },
-            {
-                "text":"Invalid network request",
-                "file":"test.js",
-                "location": "line 54"
-            },
-            {
-                "text":"NPM ERR",
-                "file":"",
-                "location": ""
-            }
-        ]
-    },
-    "build2":{
-        "name": "build2",
-        "status": "SUCCESS",
-        "dashboard_url":"http://se-slack-botwa.s3-website-us-east-1.amazonaws.com",
-        "errors": []
-    }
+  "hits" : {
+    "hits" : [
+      {
+        "_source" : {
+          "user_name" : "vpmaddur"
+        }
+      },
+      {
+        "_source" : {
+          "repository" : "https://github.ncsu.edu/vpmaddur/SE-Project-Test.git"
+        }
+      },
+      {
+        "_source" : {
+          "result" : "FAILURE"
+        }
+      },
+      {
+        "_source" : {
+          "revision_number" : "7b6c3781860d45cb7017bad3132081dd4084d661"
+        }
+      },
+      {
+        "_source" : {
+          "commit_message" : "\"Update README.md\""
+        }
+      }
+    ]
+  }
 }
