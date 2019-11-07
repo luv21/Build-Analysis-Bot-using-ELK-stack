@@ -84,3 +84,11 @@ app.post("/complete", (req, res) => {
     });
   }
 });
+
+
+app.post("/jenkins", (req, res) => {
+  let body;
+  console.log(body);
+  res.send("OK")
+});
+

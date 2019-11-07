@@ -3,7 +3,8 @@
 //"116377b0664c6134c003dca90ab543d280"
 var request = require('request');
 
-var jenkins_config = {username:"admin",token:process.env.JENKINSTOKEN}
+var jenkins_config = {username:"admin",token:"116377b0664c6134c003dca90ab543d280",project_name:'se_p'}
+var botwa_config = {url:"http://162.222.180.32:3000/jenkins"}
 
 function getDefaultOptions(jobname,endpoint)
 {
@@ -18,26 +19,44 @@ function getDefaultOptions(jobname,endpoint)
 	return options;
 }
 
-async function get_job(jobname,endpoint){
+function getBotwaOptions()
+{
+    var options = {
+        url: botwa_config.url,
+    };
+    return options;
+}
 
+function post_to_botwa(current_build_number, current_build_status)
+{
+    var options = getBotwaOptions();
+    console.log(current_build_number);
+    console.log(options);
+    request.post(options,{json:{build_no:current_build_number,build_status:current_build_status}}, function(error, response, body){
+        if (error) {
+            console.error(error)
+            return
+          }
+        });
+}
+
+async function get_job(jobname,endpoint)
+{
     var options = getDefaultOptions(jobname,endpoint);
     //console.log(options);
     request(options, function(error, response, body){
         //console.log(options)
         if (!error && response.statusCode == 200) {
-            console.log(body)
+            //console.log(body)
             obj = JSON.parse(body);
-            current_build = obj.lastBuild.number;
-            console.log(current_build)
-            current_build_status = 1;
-            console.log(obj.lastBuild.url);
-            console.log(obj.color);
-
+            current_build_number = obj.lastBuild.number;
+            current_build_status = obj.color;
+            //console.log(current_build_status)
+            //console.log(obj.lastBuild.url);
             // console.log(obj) // Print the json
+            post_to_botwa(current_build_number,current_build_status);
           }
         });
 }
 
-get_job("se_p","json?pretty=true").then(data=>{
-    // console.log(data);
-});
+get_job(jenkins_config.project_name,"json?pretty=true");
