@@ -1,34 +1,20 @@
-{
-    "build1":{
-        "name": "build1",
-        "url": "job/asgard/",
-        "build": {
-            "full_url": "http://localhost:8080/job/asgard/18/",
-            "number": 18,
-            "phase": "COMPLETED",
-            "status": "SUCCESS",
-            "url": "job/asgard/18/",
-            "scm": {
-                "url": "https://github.ncsu.edu/csc510-fall2019/CSC510-26.git",
-                "branch": "origin/master",
-                "commit": "b769b2c1e30e628f1261668bc6ea908e84986291"
-            }
-        }
-    },
-    "build2":{
-        "name": "build2",
-        "url": "job/Nidavellir/",
-        "build": {
-            "full_url": "http://localhost:8080/job/Nidavellir/18/",
-            "number": 18,
-            "phase": "COMPLETED",
-            "status": "FAILED",
-            "url": "job/Nidavellir/18/",
-            "scm": {
-                "url": "https://github.ncsu.edu/csc510-fall2019/CSC510-26.git",
-                "branch": "origin/master",
-                "commit": "b769b2c1e30e628f1261668bc6ea908e84986291"
-            }
-        }
-    }
+{   "build_no": 1, 
+    "build_status": "red"
 }
+{   "build_no": 2 ,
+    "build_status": "green"
+}
+{   "build_no": 3, 
+    "build_status": "green"
+}
+{   "build_no": 4, 
+    "build_status": "red"
+}
+{   "build_no": 5, 
+    "build_status": "green"
+}
+{   "build_no": 6, 
+    "build_status": "red"
+}
+
+
