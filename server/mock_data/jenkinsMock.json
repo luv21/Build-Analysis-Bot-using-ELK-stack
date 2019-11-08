@@ -1,20 +1,8 @@
-{   "build_no": 1, 
-    "build_status": "red"
+{
+  "build1": { "build_no": 1, "build_status": "red", "project": "test" },
+  "build2": { "build_no": 2, "build_status": "green", "project": "test" },
+  "build3": { "build_no": 3, "build_status": "green", "project": "test" },
+  "build4": { "build_no": 4, "build_status": "red", "project": "test" },
+  "build5": { "build_no": 5, "build_status": "green", "project": "test" },
+  "build6": { "build_no": 6, "build_status": "red", "project": "test" }
 }
-{   "build_no": 2 ,
-    "build_status": "green"
-}
-{   "build_no": 3, 
-    "build_status": "green"
-}
-{   "build_no": 4, 
-    "build_status": "red"
-}
-{   "build_no": 5, 
-    "build_status": "green"
-}
-{   "build_no": 6, 
-    "build_status": "red"
-}
-
-

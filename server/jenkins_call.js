@@ -47,14 +47,14 @@ async function get_job(jobname,endpoint)
     request(options, function(error, response, body){
         //console.log(options)
         if (!error && response.statusCode == 200) {
-            //console.log(body)
+            console.log(response.body)
             obj = JSON.parse(body);
             current_build_number = obj.lastBuild.number;
             current_build_status = obj.color;
             //console.log(current_build_status)
             //console.log(obj.lastBuild.url);
             // console.log(obj) // Print the json
-            post_to_botwa(current_build_number,current_build_status);
+            // post_to_botwa(current_build_number,current_build_status);
           }
         });
 }

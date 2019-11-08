@@ -15,6 +15,8 @@ app.listen(process.env.PORT || PORT, function() {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
 app.post("/", (req, res) => {
   let body;
   let build_name = req.body.text.split(" ")[0];
@@ -25,7 +27,7 @@ app.post("/", (req, res) => {
     //extract b-name from request //command <build2> - extract
     //console.log("name",action_name)
     if (action_name==="analysis") {
-      body = messages.composeDashboardURL(build_name, temp.dashboard_url);
+      console.log("Build_image")
     } else {
       if (temp.status === "SUCCESS") {
         body = messages.successMessage(temp);
@@ -41,17 +43,16 @@ app.post("/", (req, res) => {
         body: JSON.stringify(body)
       },
       (error, response, body) => {
-        // console.log("response: ", response.statusCode);
-        //console.log("response: ", response.statusCode);
         res.send(temp.dashboard_url);
       }
     );
   });
 });
 
+
 app.post("/complete", (req, res) => {
   let body;
-  if (req.body.build.status === "SUCCESS") {
+  if (req.body.build_status === "green") {
     body = messages.successMessage(req.body);
     request.post(
       {
@@ -65,7 +66,7 @@ app.post("/complete", (req, res) => {
       }
     );
   } else {
-    let temp = data1.getBuild(req.body.name);
+    let temp = data1.getBuild(req.body.build_no);
     temp.then(function(results) {
       body = messages.faiureMessage(results);
       request.post(
@@ -76,8 +77,6 @@ app.post("/complete", (req, res) => {
         },
         (error, response, body) => {
           mock1 = response.statusCode;
-          // console.log(mock1)
-          //console.log("response: ", response.statusCode);
           res.send(response);
         }
       );
