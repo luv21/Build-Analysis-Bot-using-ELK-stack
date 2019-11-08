@@ -3,7 +3,8 @@
     "hits" : [
       {
         "_source" : {
-          "user_name" : "vpmaddur"
+          "revision_number" : "b2f9f60a5138d00c830e60baebb55f3c5ff51bb3",
+          "commit_message" : "\"Update Jenkinsfile\"\n "
         }
       },
       {
@@ -13,17 +14,40 @@
       },
       {
         "_source" : {
+          "pipeline" : {
+            "checkout" : {
+              "command" : "pip install pyyaml",
+              "info" : " pip install pyyaml\nRequirement already satisfied: pyyaml in /usr/local/lib/python2.7/dist-packages"
+            },
+            "name" : "checkout"
+          }
+        }
+      },
+      {
+        "_source" : {
+          "pipeline" : {
+            "Building" : {
+              "command" : "python merge_logic.py testcases/test4/dir1/dir2/dir3/dir4/input.yaml",
+              "info" : " python merge_logic.py testcases/test4/dir1/dir2/dir3/dir4/input.yaml\nmerge_logic.py:11: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.\n  data = yaml.load(fy)\nanimal list:\n- tiger\n- cat\n- elephant\nitems:\n  axe:\n    shape: edge\n    size: 13\n  gun: 15\n  pistol: new\n  rocket:\n  - ??\n  - '12'\n  - '15'\n  sword:\n    size: 12\nproperty:\n  House:\n    bunglow: 14\n    duplex: 45.5\n    flat:\n      1-bhk:\n        hall: 2\n        kitchen: 3\n      2-bhk: 5\n      3-bhk: 8\n"
+            },
+            "name" : "Building"
+          }
+        }
+      },
+      {
+        "_source" : {
+          "pipeline" : {
+            "Testing" : {
+              "command" : "python test_merge.py",
+              "info" : " python test_merge.py\n/var/jenkins_home/workspace/se-project-test1/merge_logic.py:11: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.\n  data = yaml.load(fy)\nF..\n======================================================================\nFAIL: test_merge (__main__.Testmerge)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"test_merge.py\", line 9, in test_merge\n    self.assertEqual(result,{'color': 'blue', 'count': 2, 'size': 9})\nAssertionError: {'color': 'blue', 'count': 2, 'size': 8} != {'color': 'blue', 'count': 2, 'size': 9}\n- {'color': 'blue', 'count': 2, 'size': 8}\n?                                       ^\n\n+ {'color': 'blue', 'count': 2, 'size': 9}\n?                                       ^\n\n\n----------------------------------------------------------------------\nRan 3 tests in 0.009s\n\nFAILED (failures=1)"
+            },
+            "name" : "Testing"
+          }
+        }
+      },
+      {
+        "_source" : {
           "result" : "FAILURE"
-        }
-      },
-      {
-        "_source" : {
-          "revision_number" : "7b6c3781860d45cb7017bad3132081dd4084d661"
-        }
-      },
-      {
-        "_source" : {
-          "commit_message" : "\"Update README.md\""
         }
       }
     ]
