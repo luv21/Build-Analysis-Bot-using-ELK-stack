@@ -7,6 +7,7 @@ urlRoot_jenkins = "https://35.208.168.86:8080";
 const analytics = require("./analytics/analytics");
 const elastic = require("./elasticSearch/api");
 const charts = require("./analytics/charts");
+const messages = require("./messages");
 
 /**
  *
@@ -62,12 +63,12 @@ async function getStatus() {
 }
 
 async function getProjectData(projectName) {
-  return data;
+    return analytics.analyzeProject(data)
 }
 
-getBuild(1).then(result=>{
-    charts.generatePieChart(result)
-})
+// getBuild(1).then(result=>{
+//     messages.faiureMessage(result)
+// })
     
 
 

@@ -20,18 +20,21 @@ app.use(bodyParser.json());
 
 app.post("/", (req, res) => {
   let body;
-  let build_number = req.body.text.split(" ")[0];
-  let action_name = req.body.text.split(" ")[1];
-  data1.getBuild(build_number).then(results => {
-    if (action_name === "analysis") {
-      if (!build_number) {
-        data1.getProjectData("test-se").then(result => {
-          charts.generateProjectChart(result);
-        });
-      } else {
-        charts.generatePieChart(results);
-      }
+  let build_number = req.body.text.split(" ")[1];
+  let action_name = req.body.text.split(" ")[0];
+
+  if (action_name === "analysis") {
+    if (!build_number) {
+      data1.getProjectData("test-se").then(result => {
+        charts.generateProjectChart(result);
+      });
     } else {
+      data1.getBuild(build_number).then(results => {
+        charts.generatePieChart(results);
+      });
+    }
+  } else {
+    data1.getBuild(build_number).then(results => {
       if (results.status === "SUCCESS") {
         body = messages.successMessage({
           build_no: build_number,
@@ -47,11 +50,11 @@ app.post("/", (req, res) => {
           body: JSON.stringify(body)
         },
         (error, response, body) => {
-          res.send(results.dashboard_url);
+          console.log(response.statusCode);
         }
       );
-    }
-  });
+    });
+  }
 });
 
 app.post("/complete", (req, res) => {
@@ -73,7 +76,7 @@ app.post("/complete", (req, res) => {
       },
       (error, response, body) => {
         console.log("response: ", response.statusCode);
-        res.send(response);
+        // res.send(response);
       }
     );
   });
