@@ -49,8 +49,8 @@ async function generatePieChart(analysis) {
       {
         file: fs.createReadStream("image.png"),
         filetype: "auto",
-        title: "README",
-        initialComment: "my comment",
+        title: "Build analysis",
+        initialComment: "Build specific analysis",
         channels: config.SLACK_CHANNEL
       },
       function(err, data) {
@@ -191,8 +191,8 @@ async function generateLineChart(data) {
       {
         file: fs.createReadStream("image.png"),
         filetype: "auto",
-        title: "README",
-        initialComment: "my comment",
+        title: "Project-Analysis",
+        initialComment: "Build-wise analysis of failures",
         channels: config.SLACK_CHANNEL
       },
       function(err, data) {

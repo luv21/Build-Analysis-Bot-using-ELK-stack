@@ -34,4 +34,4 @@ module.exports = {
     };
   }
 };
-//curl -X POST -H 'Content-type: application/json' --data '{"name": "build1","url": "job/asgard/", "build": {"full_url": "http://localhost:8080/job/asgard/18/", "number": 18,"phase": "COMPLETED","status": "SUCCESsS","url": "job/asgard/18/","scm": {"url": "https://github.ncsu.edu/csc510-fall2019/CSC510-26.git","branch": "origin/master", "commit": "b769b2c1e30e628f1261668bc6ea908e84986291"}}}' localhost:3000/complete
+//curl -X POST -H 'Content-type: application/json' --data '{ "build_no": 1, "build_status": "red", "project": "test" }' localhost:3000/complete
