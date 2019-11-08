@@ -8,6 +8,10 @@ const analytics = require("./analytics/analytics");
 const elastic = require('./elasticSearch/api');
 const messages = require("./messages");
 
+/**
+ * 
+ * @param {*} job_number 
+ */
 async function getBuild(job_number) {
     // var elasticsearchmock = nock(urlRoot_elastic)
     //     .persist()
@@ -33,7 +37,9 @@ async function getBuild(job_number) {
 }
 
 
-
+/**
+ * 
+ */
 async function getStatus() {
 
     var jenkinsmock = nock(urlRoot_jenkins)
@@ -56,9 +62,8 @@ async function getStatus() {
     return response;
 }
 
-getBuild("1").then(data=>{
-    let message = messages.faiureMessage(data)  
-    console.log(message)
+getBuild("1").then(result=>{
+    console.log(result)
 })
 
 

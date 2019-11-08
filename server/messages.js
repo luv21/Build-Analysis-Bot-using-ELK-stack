@@ -1,4 +1,7 @@
 module.exports = {
+  /**
+   * 
+   */
   successMessage: data => {
     message = {
       text: `Build build+${data.build_no} is Success!!! Click here to go to the PR`
@@ -6,6 +9,9 @@ module.exports = {
     return message;
   },
 
+  /**
+   * 
+   */
   faiureMessage: elastic => {
     let count = 0;
     let attachments = new Array(0);

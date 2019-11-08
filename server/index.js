@@ -19,20 +19,19 @@ app.use(bodyParser.json());
 
 app.post("/", (req, res) => {
   let body;
-  let build_name = req.body.text.split(" ")[0];
-  // console.log(build_name);
+  let build_number = req.body.text.split(" ")[0];
   let action_name = req.body.text.split(" ")[1];
-  // console.log(action_name); //action name is status
-  data1.getBuild(build_name).then(temp => {
-    //extract b-name from request //command <build2> - extract
-    //console.log("name",action_name)
-    if (action_name==="analysis") {
-      console.log("Build_image")
+  data1.getBuild(build_number).then(results => {
+    if (action_name === "analysis") {
+      console.log("Build_image");
     } else {
-      if (temp.status === "SUCCESS") {
-        body = messages.successMessage(temp);
+      if (results.status === "SUCCESS") {
+        body = messages.successMessage({
+          build_no: build_number,
+          repo_url: results.repo_url
+        });
       } else {
-        body = messages.faiureMessage(temp);
+        body = messages.faiureMessage(results);
       }
     }
 
@@ -43,17 +42,23 @@ app.post("/", (req, res) => {
         body: JSON.stringify(body)
       },
       (error, response, body) => {
-        res.send(temp.dashboard_url);
+        res.send(results.dashboard_url);
       }
     );
   });
 });
 
-
 app.post("/complete", (req, res) => {
   let body;
-  if (req.body.build_status === "green") {
-    body = messages.successMessage(req.body);
+  data1.getBuild(req.body.build_no).then(function(results) {
+    if (req.body.build_status === "green") {
+      body = messages.successMessage({
+        build_no: req.body.build_no,
+        repo_url: results.repo_url
+      });
+    } else {
+      body = messages.faiureMessage(results);
+    }
     request.post(
       {
         headers: { "content-type": "application/json" },
@@ -65,29 +70,11 @@ app.post("/complete", (req, res) => {
         res.send(response);
       }
     );
-  } else {
-    let temp = data1.getBuild(req.body.build_no);
-    temp.then(function(results) {
-      body = messages.faiureMessage(results);
-      request.post(
-        {
-          headers: { "content-type": "application/json" },
-          url: config.HOOK_URL,
-          body: JSON.stringify(body)
-        },
-        (error, response, body) => {
-          mock1 = response.statusCode;
-          res.send(response);
-        }
-      );
-    });
-  }
+  });
 });
-
 
 app.post("/jenkins", (req, res) => {
   let body;
-  console.log(req.body)
-  res.send("OK")
+  console.log(req.body);
+  res.send("OK");
 });
-
