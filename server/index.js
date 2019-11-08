@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const request = require("request");
 const config = require("./credentials.json");
 const data1 = require("./data1.js");
+const charts = require("./analytics/charts");
+const analytics = require("./analytics/analytics");
 
 let mock1;
 // Creates express app
@@ -15,44 +17,57 @@ app.listen(process.env.PORT || PORT, function() {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.post("/", (req, res) => {
   let body;
-  let build_name = req.body.text.split(" ")[0];
-  // console.log(build_name);
-  let action_name = req.body.text.split(" ")[1];
-  // console.log(action_name); //action name is status
-  data1.getBuild(build_name).then(temp => {
-    //extract b-name from request //command <build2> - extract
-    //console.log("name",action_name)
-    if (action_name==="analysis") {
-      body = messages.composeDashboardURL(build_name, temp.dashboard_url);
-    } else {
-      if (temp.status === "SUCCESS") {
-        body = messages.successMessage(temp);
-      } else {
-        body = messages.faiureMessage(temp);
-      }
-    }
+  let build_number = req.body.text.split(" ")[1];
+  let action_name = req.body.text.split(" ")[0];
 
-    request.post(
-      {
-        headers: { "content-type": "application/json" },
-        url: req.body.response_url,
-        body: JSON.stringify(body)
-      },
-      (error, response, body) => {
-        // console.log("response: ", response.statusCode);
-        //console.log("response: ", response.statusCode);
-        res.send(temp.dashboard_url);
+  if (action_name === "analysis") {
+    if (!build_number) {
+      data1.getProjectData("test-se").then(result => {
+        charts.generateProjectChart(result);
+      });
+    } else {
+      data1.getBuild(build_number).then(results => {
+        charts.generatePieChart(results);
+      });
+    }
+  } else {
+    data1.getBuild(build_number).then(results => {
+      if (results.status === "SUCCESS") {
+        body = messages.successMessage({
+          build_no: build_number,
+          repo_url: results.repo_url
+        });
+      } else {
+        body = messages.faiureMessage(results);
       }
-    );
-  });
+      request.post(
+        {
+          headers: { "content-type": "application/json" },
+          url: req.body.response_url,
+          body: JSON.stringify(body)
+        },
+        (error, response, body) => {
+          console.log(response.statusCode);
+        }
+      );
+    });
+  }
 });
 
 app.post("/complete", (req, res) => {
   let body;
-  if (req.body.build.status === "SUCCESS") {
-    body = messages.successMessage(req.body);
+  data1.getBuild(req.body.build_no).then(function(results) {
+    if (req.body.build_status === "green") {
+      body = messages.successMessage({
+        build_no: req.body.build_no,
+        repo_url: results.repo_url
+      });
+    } else {
+      body = messages.faiureMessage(results);
+    }
     request.post(
       {
         headers: { "content-type": "application/json" },
@@ -61,26 +76,14 @@ app.post("/complete", (req, res) => {
       },
       (error, response, body) => {
         console.log("response: ", response.statusCode);
-        res.send(response);
+        // res.send(response);
       }
     );
-  } else {
-    let temp = data1.getBuild(req.body.name);
-    temp.then(function(results) {
-      body = messages.faiureMessage(results);
-      request.post(
-        {
-          headers: { "content-type": "application/json" },
-          url: config.HOOK_URL,
-          body: JSON.stringify(body)
-        },
-        (error, response, body) => {
-          mock1 = response.statusCode;
-          // console.log(mock1)
-          //console.log("response: ", response.statusCode);
-          res.send(response);
-        }
-      );
-    });
-  }
+  });
+});
+
+app.post("/jenkins", (req, res) => {
+  let body;
+  console.log(req.body);
+  res.send("OK");
 });
