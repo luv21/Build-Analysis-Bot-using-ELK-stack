@@ -100,7 +100,7 @@
       },
       {
         "_source": {
-          "result": "FAILURE"
+          "result": "SUCCESS"
         }
       }
     ]
