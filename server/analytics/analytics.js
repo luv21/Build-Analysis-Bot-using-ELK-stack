@@ -38,6 +38,14 @@ function calculateErrors(log, build_number) {
   return analysis
 }
 
+function analyzeProject(data){
+  let result= {};
+  for (let [key, value] of Object.entries(data)) {
+    result[key] = calculateErrors(value, key);
+  }
+  return result
+}
+
 /**
  * 
  * @param {*} errors 
@@ -50,3 +58,4 @@ function parseErrors(errors){
 }
 
 exports.calculateErrors = calculateErrors;
+exports.analyzeProject = analyzeProject;

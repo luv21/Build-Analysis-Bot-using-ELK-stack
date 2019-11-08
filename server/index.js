@@ -5,6 +5,7 @@ const request = require("request");
 const config = require("./credentials.json");
 const data1 = require("./data1.js");
 const charts = require("./analytics/charts");
+const analytics = require("./analytics/analytics");
 
 let mock1;
 // Creates express app
@@ -23,7 +24,13 @@ app.post("/", (req, res) => {
   let action_name = req.body.text.split(" ")[1];
   data1.getBuild(build_number).then(results => {
     if (action_name === "analysis") {
-      charts.generateChart();
+      if (build_number) {
+        data1.getProjectData("test-se").then(result => {
+          charts.generateProjectChart(result);
+        });
+      } else {
+        charts.generatePieChart(results);
+      }
     } else {
       if (results.status === "SUCCESS") {
         body = messages.successMessage({
