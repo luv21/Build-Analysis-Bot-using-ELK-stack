@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const request = require("request");
 const config = require("./credentials.json");
 const data1 = require("./data1.js");
+const charts = require("./analytics/charts");
 
 let mock1;
 // Creates express app
@@ -16,14 +17,13 @@ app.listen(process.env.PORT || PORT, function() {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 app.post("/", (req, res) => {
   let body;
   let build_number = req.body.text.split(" ")[0];
   let action_name = req.body.text.split(" ")[1];
   data1.getBuild(build_number).then(results => {
     if (action_name === "analysis") {
-      console.log("Build_image");
+      charts.generateChart();
     } else {
       if (results.status === "SUCCESS") {
         body = messages.successMessage({
@@ -33,18 +33,17 @@ app.post("/", (req, res) => {
       } else {
         body = messages.faiureMessage(results);
       }
+      request.post(
+        {
+          headers: { "content-type": "application/json" },
+          url: req.body.response_url,
+          body: JSON.stringify(body)
+        },
+        (error, response, body) => {
+          res.send(results.dashboard_url);
+        }
+      );
     }
-
-    request.post(
-      {
-        headers: { "content-type": "application/json" },
-        url: req.body.response_url,
-        body: JSON.stringify(body)
-      },
-      (error, response, body) => {
-        res.send(results.dashboard_url);
-      }
-    );
   });
 });
 

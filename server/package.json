@@ -20,6 +20,7 @@
     "got": "^9.6.0",
     "mocha": "^6.2.2",
     "nock": "^11.1.0",
+    "node-slack-upload": "^2.0.0",
     "puppeteer": "^1.20.0",
     "request": "^2.88.0"
   }
