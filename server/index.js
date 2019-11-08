@@ -24,7 +24,7 @@ app.post("/", (req, res) => {
   let action_name = req.body.text.split(" ")[1];
   data1.getBuild(build_number).then(results => {
     if (action_name === "analysis") {
-      if (build_number) {
+      if (!build_number) {
         data1.getProjectData("test-se").then(result => {
           charts.generateProjectChart(result);
         });

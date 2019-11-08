@@ -65,6 +65,11 @@ async function getProjectData(projectName) {
   return data;
 }
 
+getBuild(1).then(result=>{
+    charts.generatePieChart(result)
+})
+    
+
 
 exports.getBuild = getBuild;
 exports.getStatus = getStatus;
