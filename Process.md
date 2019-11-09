@@ -79,9 +79,13 @@ In one of the project named “ Parsing Log Files in Log Stash” one of the tea
 
 ### Venkata Sai
 
+#### Positives
+
 * Implementing Async functions to receive API calls
 * Mock Jenkins API request to Bot, Mock ElasticSearch response to Bot
 * Exploring Jenkins APIs and ElasticSearch APIs
+
+#### Negatives
 
 * Jenkins API Documentation is not clear
 * Dockerizing the infrastructure
@@ -141,7 +145,14 @@ In one of the project named “ Parsing Log Files in Log Stash” one of the tea
 * Establish communication between slack channel and bot server
 * Setup mock data for the bot
 
+#### Sprint Summary Planning;
+
+* Github Integration with Jenkins
+* Setting Up Elasticsearch and Logstash 
+* Dockerizing Complete infrastructure
+
 ![sprint1](/Images/sprint1.jpg)
+
 
 
 # Scrum Meeting 2 - 11/4/2019
@@ -231,7 +242,7 @@ Multiline log filters and XML file parsers
 
 
 
-#### Sprint Planning;
+#### Sprint Summary Planning;
 
 * Jenkins: Install dependencies and integrate with bot server 
 * Integration between jenkins and logstash 
@@ -239,7 +250,6 @@ Multiline log filters and XML file parsers
 * Parsing Log files in logstash and indexing in elasticsearch
 * Providing API communication between bot server and elasticsearch
 * Perform basic aggregated analytics
-
 
 
 ![sprint2](/Images/sprint2.jpg)
