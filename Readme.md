@@ -9,4 +9,4 @@
 
 [BOT link](BOT.md)
 
-[Process link](PROCESS.md)
+[Process link](Process.md)
