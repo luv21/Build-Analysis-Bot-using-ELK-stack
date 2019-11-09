@@ -8,3 +8,5 @@
 [Design file link](DESIGN.md)
 
 [BOT link](BOT.md)
+
+[Process link](PROCESS.md)
