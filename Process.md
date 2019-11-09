@@ -16,7 +16,9 @@ In one of the project named “ Parsing Log Files in Log Stash” one of the tea
 
  We used Code Review as the Corollary practice for our project. Code review is one of the most used core practice in the industry which helps to improve the code quality and consistency by sharing of knowledge within the team. 
  
- Each member of the team worked on different issues and the subtasks of that issue. After completing the implementation the team member  requests a code review from his peers in the team. 
+ Each member of the team worked on different issues and the subtasks of that issue. After completing the implementation, before merging the functionality into the master, the team member  requests a code review from his peers in the team. Once the changes and suggestions are addressed, we then merge the Pull Request into the master.
+ 
+ Along with that, we also started documenting the project setup instructions and following JSdocs syntax to annotate function definitions to have a consistent documentation guidelines for the repository.
 
 
 
