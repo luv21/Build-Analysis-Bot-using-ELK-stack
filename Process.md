@@ -1,0 +1,10 @@
+For this milestone we implemented the basic flow described by the use case of our project. For implementing the basic flow our team used well known Software Practices.
+As our general Software Process, we have used ‘scrumban" methodology which is a combination of Kanban and Scrum practices. The Kanban board provided good visualization of the overall project and stories created for different milestones. The Scrum planning meetings allowed our team to organize its work around informed priorities. As a part of Core Practice, we are using Code Review and as Corollary practice we are using Pair Programming. While following these practices we kept the meeting notes and the documentation of these practices.
+
+
+Core 
+After learning about the important Core practices in the course, our team decided to choose Pair Programming as the core practice to be used for our project. Pair programming is an agile software development technique in which two programmers work together at one workstation. One person writes the code and the other reviews each line of code. It is an effective way to share knowledge and write a code with less bugs. In our case we divided teams into two pairs. Each pair worked on an issue. One person in the pair implemented the task while the other reviewed his code and performed brainstorming on the critical steps of the implementation. Most of the issues of our project have two assignees. In one of the project named “ Parsing Log Files in Log Stash” one of the team member wrote the Logstash filters while his partner checked the syntax of the regex and provided him input and brainstorming when required.
+
+
+Corollary Practice
+ We used Code Review as the Corollary practice for our project. Code review is one of the most used core practice in the industry which helps to improve the code quality and consistency by sharing of knowledge within the team. Each member of the team worked on different issues and the subtasks of that issue. After completing the implementation the team member  requests a code review from his peers in the team. 
