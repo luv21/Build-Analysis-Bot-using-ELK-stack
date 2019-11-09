@@ -141,6 +141,7 @@ In one of the project named “ Parsing Log Files in Log Stash” one of the tea
 * Establish communication between slack channel and bot server
 * Setup mock data for the bot
 
+![sprint1](/Images/sprint1.jpg)
 
 
 # Scrum Meeting 2 - 11/4/2019
@@ -240,6 +241,5 @@ Multiline log filters and XML file parsers
 * Perform basic aggregated analytics
 
 
-![sprint1](/Images/sprint1.jpg)
 
 ![sprint2](/Images/sprint2.jpg)
