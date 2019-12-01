@@ -26,12 +26,20 @@ module.exports = {
           text: error
         });
       });
-
     }
     return {
       text: `Build ${elastic.build_number} Failed with ${count} errors :cry: :cry: :cry: Find details below. \nLink to the commit ${elastic.repo_url}`,
       attachments
     };
+  },
+  invalidAction: () => {
+    return {
+      text: "Invalid action. Please use either `bot-assemble analysis {project-name} {build-number}` or `bot-assemble vis {project-name} {build-number}`"
+    };
+  },
+  invalidSyntax: () => {
+    return {
+      text: "Invalid Syntax. Please use `bot-assemble {action} {project-name} {build-number}` to get the details"
+    };
   }
 };
-//curl -X POST -H 'Content-type: application/json' --data '{ "build_no": 1, "build_status": "red", "project": "test" }' localhost:3000/complete
