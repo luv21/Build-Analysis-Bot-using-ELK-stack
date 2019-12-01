@@ -10,23 +10,24 @@ const messages = require("./messages");
  *
  * @param {*} job_number
  */
-async function getBuild(job_number) {
-  let analysis = analytics.calculateErrors(data[job_number], job_number);
-  return analysis;
-  // elastic.searchDocument(jobname);
-  // return response;
+async function getBuild(project_name, job_number) {
+  try {
+    let build_data = await elastic.searchDocument(project_name, job_number);
+    let analysis = await analytics.calculateErrors(build_data, job_number);
+    return analysis;
+  } catch (error) {
+    return undefined
+  }
 }
-
 
 async function getProjectData(projectName) {
-    return analytics.analyzeProject(data)
+  return analytics.analyzeProject(data);
 }
 
-// getBuild(1).then(result=>{
-//     messages.faiureMessage(result)
+// getBuild("se_project", "7").then(result=>{
+//   // console.log(result)
+//     console.log(messages.faiureMessage(result))
 // })
-    
-
 
 exports.getBuild = getBuild;
-exports.getProjectData = getProjectData
+exports.getProjectData = getProjectData;

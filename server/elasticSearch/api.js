@@ -31,9 +31,7 @@ function createDocument(job_id) {
  */
 function deleteDocument(job_id) {
   let client = new elasticsearch.Client({
-    hosts: [
-      `https://${config.username}:${config.password}@${config.server}:${config.port}/`
-    ]
+    hosts: [`${config.server}:${config.port}/`]
   });
   client.delete(
     {
@@ -53,51 +51,52 @@ function deleteDocument(job_id) {
  * @param {*} jobID  - Job ID of the jenkins job whose data we want to fetch
  * @returns {response} - returns the data of the job obtained from the elasticsearch
  */
-function searchDocument() {
+function searchDocument(project_name, build_number) {
   let client = new elasticsearch.Client({
-    hosts: [
-      //`https://${config.username}:${config.password}@${config.server}:${config.port}/`
-      '34.67.233.131:9200'
-    ]
+    hosts: [`${config.server}:${config.port}`]
   });
-  client.search(
-    {
-      index: "se_project-7", //{project_name}-{buildno}
+  return client
+    .search({
+      index: project_name + "-" + build_number, //{project_name}-{buildno}
       type: "_doc",
       body: {
-        "query" : 
-            { "query_string": { 
-                                "query": "*", 
-                                "fields" : [ "revision_number", "user_name", "result", "commit_message", "repository", "pipeline" ] 
-                              } 
-            }
+        query: {
+          query_string: {
+            query: "*",
+            fields: [
+              "revision_number",
+              "user_name",
+              "result",
+              "commit_message",
+              "repository",
+              "pipeline"
+            ]
+          }
         }
-    },
-    function(error, response, status) {
-      var tp = response.hits
-      console.log(tp)
-      console.log(tp.hits)
-      //console.log(response.hits.hits)
-      //var hits = JSON.parse(response);
-      //console.log(hits);
-      //console.log(jobID)
-      if (error) {
-        console.log("hi");
-        //console.log("search error: " + error);
-      } else {
-        //console.log("--- Response ---");
-        //console.log(response);
-        //console.log("--- Hits ---");
-        //response.hits.hits.forEach(function(hit) {
-        //console.log(hits);
-        // });
-      //return hits;
       }
-    }
-  );
+    })
+    .then(response => {
+      let hits = [];
+      for(let i=0;i<response.hits.hits.length;i++){
+        let obj = response.hits.hits[i];
+        hits.push({"_source": obj['_source']})
+      }      
+      return {hits};
+    });
 }
 
-searchDocument();
+async function test() {
+  try {
+    x = await searchDocument("se_project", "7")
+    console.log(x);
+    // return (x)
+    
+  } catch (error) {
+    // return [];
+  }
+}
+
+// test()
 // exports.createDocument = createDocument;
 // exports.deleteDocument = deleteDocument;
-// exports.searchDocument = searchDocument;
+exports.searchDocument = searchDocument;

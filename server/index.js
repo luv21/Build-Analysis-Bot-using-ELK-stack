@@ -20,12 +20,13 @@ app.use(bodyParser.json());
 
 app.post("/", (req, res) => {
   let body;
-  let build_number = req.body.text.split(" ")[1];
+  let project_name = req.body.text.split(" ")[1];
+  let build_number = req.body.text.split(" ")[2];
   let action_name = req.body.text.split(" ")[0];
 
   res.send();
 
-  if (action_name && build_number) {
+  if (action_name) {
     switch (action_name) {
       case "analysis": {
         if (!build_number) {
@@ -33,33 +34,46 @@ app.post("/", (req, res) => {
             charts.generateProjectChart(result);
           });
         } else {
-          data1.getBuild(build_number).then(results => {
+          data1.getBuild(project_name, build_number).then(results => {
             charts.generatePieChart(results);
           });
         }
         break;
       }
-      case "vis": {
-        data1.getBuild(build_number).then(results => {
-          if (results.status === "SUCCESS") {
-            body = messages.successMessage({
-              build_no: build_number,
-              repo_url: results.repo_url
-            });
-          } else {
-            body = messages.faiureMessage(results);
-          }
+      case "build": {
+        if (!build_number) {
           request.post(
             {
               headers: { "content-type": "application/json" },
               url: req.body.response_url,
-              body: JSON.stringify(body)
+              body: JSON.stringify(messages.invalidSyntax())
             },
             (error, response, body) => {
               console.log(response.statusCode);
             }
           );
-        });
+        } else {
+          data1.getBuild(project_name, build_number).then(results => {
+            if (results.status === "SUCCESS") {
+              body = messages.successMessage({
+                build_no: build_number,
+                repo_url: results.repo_url
+              });
+            } else {
+              body = messages.faiureMessage(results);
+            }
+            request.post(
+              {
+                headers: { "content-type": "application/json" },
+                url: req.body.response_url,
+                body: JSON.stringify(body)
+              },
+              (error, response, body) => {
+                console.log(response.statusCode);
+              }
+            );
+          });
+        }
         break;
       }
       default: {
@@ -92,27 +106,29 @@ app.post("/", (req, res) => {
 
 app.post("/complete", (req, res) => {
   let body;
-  data1.getBuild(req.body.build_no).then(function(results) {
-    if (req.body.build_status === "green") {
-      body = messages.successMessage({
-        build_no: req.body.build_no,
-        repo_url: results.repo_url
-      });
-    } else {
-      body = messages.faiureMessage(results);
-    }
-    request.post(
-      {
-        headers: { "content-type": "application/json" },
-        url: config.HOOK_URL,
-        body: JSON.stringify(body)
-      },
-      (error, response, body) => {
-        console.log("response: ", response.statusCode);
-        // res.send(response);
+  data1
+    .getBuild(req.body.project_name, req.body.build_no)
+    .then(function(results) {
+      if (req.body.build_status === "green") {
+        body = messages.successMessage({
+          build_no: req.body.build_no,
+          repo_url: results.repo_url
+        });
+      } else {
+        body = messages.faiureMessage(results);
       }
-    );
-  });
+      request.post(
+        {
+          headers: { "content-type": "application/json" },
+          url: config.HOOK_URL,
+          body: JSON.stringify(body)
+        },
+        (error, response, body) => {
+          console.log("response: ", response.statusCode);
+          // res.send(response);
+        }
+      );
+    });
 });
 
 app.post("/jenkins", (req, res) => {
