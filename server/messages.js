@@ -4,7 +4,7 @@ module.exports = {
    */
   successMessage: data => {
     message = {
-      text: `Build build+${data.build_no} is Success!!! Click here to go to the PR`
+      text: `Build build+${data.build_no} is Success!!! Click on ${data.repo_url} to go to the commit`
     };
     return message;
   },
