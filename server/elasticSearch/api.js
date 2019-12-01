@@ -53,39 +53,51 @@ function deleteDocument(job_id) {
  * @param {*} jobID  - Job ID of the jenkins job whose data we want to fetch
  * @returns {response} - returns the data of the job obtained from the elasticsearch
  */
-function searchDocument(jobID) {
+function searchDocument() {
   let client = new elasticsearch.Client({
     hosts: [
-      `https://${config.username}:${config.password}@${config.server}:${config.port}/`
+      //`https://${config.username}:${config.password}@${config.server}:${config.port}/`
+      '34.67.233.131:9200'
     ]
   });
   client.search(
     {
-      index: "test",
-      type: "sub_type",
+      index: "se_project-7", //{project_name}-{buildno}
+      type: "_doc",
       body: {
-        query: {
-          match: { job_id: jobID }
+        "query" : 
+            { "query_string": { 
+                                "query": "*", 
+                                "fields" : [ "revision_number", "user_name", "result", "commit_message", "repository", "pipeline" ] 
+                              } 
+            }
         }
-      }
     },
     function(error, response, status) {
-      console.log(jobID)
+      var tp = response.hits
+      console.log(tp)
+      console.log(tp.hits)
+      //console.log(response.hits.hits)
+      //var hits = JSON.parse(response);
+      //console.log(hits);
+      //console.log(jobID)
       if (error) {
-        console.log("search error: " + error);
+        console.log("hi");
+        //console.log("search error: " + error);
       } else {
-        console.log("--- Response ---");
-        console.log(response);
-        console.log("--- Hits ---");
-        response.hits.hits.forEach(function(hit) {
-          console.log(hit);
-        });
-        return response;
+        //console.log("--- Response ---");
+        //console.log(response);
+        //console.log("--- Hits ---");
+        //response.hits.hits.forEach(function(hit) {
+        //console.log(hits);
+        // });
+      //return hits;
       }
     }
   );
 }
 
-exports.createDocument = createDocument;
-exports.deleteDocument = deleteDocument;
-exports.searchDocument = searchDocument;
+searchDocument();
+// exports.createDocument = createDocument;
+// exports.deleteDocument = deleteDocument;
+// exports.searchDocument = searchDocument;
