@@ -12,8 +12,7 @@ const messages = require("./messages");
  */
 async function getBuild(project_name, job_number) {
   try {
-    let build_data = await elastic.searchDocument(project_name, job_number);
-    // console.log(build_data.hits)
+    let build_data = await elastic.searchDocument(project_name, job_number)    
     let analysis = await analytics.calculateErrors(build_data, job_number);
     return analysis;
   } catch (error) {
@@ -22,9 +21,18 @@ async function getBuild(project_name, job_number) {
 }
 
 async function getProjectData(projectName) {
-  return analytics.analyzeProject(data);
+  try {
+    let project_data = await elastic.getAllDocuments(projectName)
+    let analysis = analytics.analyzeProject(project_data);
+    return analysis
+  } catch (error) {
+    return undefined
+  }
 }
 
+getProjectData("se_project").then(data=>{
+  // console.log(data)
+})
 
 exports.getBuild = getBuild;
-// exports.getProjectData = getProjectData;
+exports.getProjectData = getProjectData;

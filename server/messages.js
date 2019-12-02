@@ -41,5 +41,10 @@ module.exports = {
     return {
       text: "Invalid Syntax. Please use `bot-assemble {action} {project-name} {build-number}` to get the details"
     };
+  },
+  doesNotExist: ()=>{
+    return {
+      text: "Project Name or Build number is invalid. Please check"
+    };
   }
 };

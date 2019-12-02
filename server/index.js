@@ -25,17 +25,40 @@ app.post("/", (req, res) => {
   let action_name = req.body.text.split(" ")[0];
 
   res.send();
-
   if (action_name) {
     switch (action_name) {
       case "analysis": {
         if (!build_number) {
-          data1.getProjectData("test-se").then(result => {
-            charts.generateProjectChart(result);
+          data1.getProjectData(project_name).then(result => {
+            if (result) charts.generateProjectChart(result);
+            else {
+              request.post(
+                {
+                  headers: { "content-type": "application/json" },
+                  url: req.body.response_url,
+                  body: JSON.stringify(messages.doesNotExist())
+                },
+                (error, response, body) => {
+                  console.log(response.statusCode);
+                }
+              );
+            }
           });
         } else {
           data1.getBuild(project_name, build_number).then(results => {
-            charts.generatePieChart(results);
+            if (results) charts.generatePieChart(results);
+            else {
+              request.post(
+                {
+                  headers: { "content-type": "application/json" },
+                  url: req.body.response_url,
+                  body: JSON.stringify(messages.doesNotExist())
+                },
+                (error, response, body) => {
+                  console.log(response.statusCode);
+                }
+              );
+            }
           });
         }
         break;
@@ -54,24 +77,37 @@ app.post("/", (req, res) => {
           );
         } else {
           data1.getBuild(project_name, build_number).then(results => {
-            if (results.status === "SUCCESS") {
-              body = messages.successMessage({
-                build_no: build_number,
-                repo_url: results.repo_url
-              });
-            } else {
-              body = messages.faiureMessage(results);
-            }
-            request.post(
-              {
-                headers: { "content-type": "application/json" },
-                url: req.body.response_url,
-                body: JSON.stringify(body)
-              },
-              (error, response, body) => {
-                console.log(response.statusCode);
+            if (results) {
+              if (results.status === "SUCCESS") {
+                body = messages.successMessage({
+                  build_no: build_number,
+                  repo_url: results.repo_url
+                });
+              } else {
+                body = messages.faiureMessage(results);
               }
-            );
+              request.post(
+                {
+                  headers: { "content-type": "application/json" },
+                  url: req.body.response_url,
+                  body: JSON.stringify(body)
+                },
+                (error, response, body) => {
+                  console.log(response.statusCode);
+                }
+              );
+            } else {
+              request.post(
+                {
+                  headers: { "content-type": "application/json" },
+                  url: req.body.response_url,
+                  body: JSON.stringify(messages.doesNotExist())
+                },
+                (error, response, body) => {
+                  console.log(response.statusCode);
+                }
+              );
+            }
           });
         }
         break;

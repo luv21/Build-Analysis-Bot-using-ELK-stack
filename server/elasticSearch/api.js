@@ -25,25 +25,45 @@ function createDocument(job_id) {
 }
 
 /**
- * Delete data of a specific Jenkins job
- * @param {*} job_id - ID of the Jenkins Job
+ * get All job details of a project
+ * @param {*} project_name - Name of the project
  * @return {resp} - response from elastic search which denotes of the operation is complete or not
  */
-function deleteDocument(job_id) {
+function getAllDocuments(project_name) {
   let client = new elasticsearch.Client({
-    hosts: [`${config.server}:${config.port}/`]
+    hosts: [`${config.server}:${config.port}`]
   });
-  client.delete(
-    {
-      index: "test",
-      id: job_id,
-      type: "sub_type"
-    },
-    function(err, resp, status) {
-      console.log(resp);
-      return resp;
-    }
-  );
+  return client
+    .search({
+      index: project_name + "-*", //{project_name}-{buildno}
+      type: "_doc",
+      size: 10000,
+      body: {
+        query: {
+          query_string: {
+            query: "*",
+            fields: [
+              "revision_number",
+              "user_name",
+              "result",
+              "commit_message",
+              "repository",
+              "pipeline"
+            ]
+          }
+        }
+      }
+    })
+    .then(response => {    
+      let data = {};
+      for(let i=0;i<response.hits.hits.length;i++){
+        let obj = response.hits.hits[i]['_source'];
+        let hits = (data[obj.build_number])?data[obj.build_number].hits:[];
+        hits.push({"_source": obj})
+        data[obj.build_number] = {hits};
+      }      
+      return data;
+    });
 }
 
 /**
@@ -85,18 +105,19 @@ function searchDocument(project_name, build_number) {
     });
 }
 
-async function test() {
-  try {
-    x = await searchDocument("se_project", "7")
-    console.log(x);
-    // return (x)
+// async function test() {
+//   try {
+//     x = await getAllDocuments("se_project")
+//     console.log(x);
+//     // return (x)
     
-  } catch (error) {
-    // return [];
-  }
-}
+//   } catch (error) {
+//     // return [];
+//   }
+// }
 
 // test()
 // exports.createDocument = createDocument;
 // exports.deleteDocument = deleteDocument;
 exports.searchDocument = searchDocument;
+exports.getAllDocuments = getAllDocuments;
