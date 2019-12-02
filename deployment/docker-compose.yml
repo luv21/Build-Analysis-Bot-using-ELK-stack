@@ -1,0 +1,70 @@
+version: "3"
+services:
+        elasticsearch:
+                image: 'elastic/elasticsearch:7.4.2'
+                container_name: 'elasticsearch'
+                hostname: 'elasticsearch'
+                environment: 
+                        - discovery.type=single-node
+                ports:
+                        - '9200:9200'
+                        - '9300:9300'
+                restart: always
+
+        kibana:
+                image: 'elastic/kibana:7.4.2'
+                container_name: 'kibana'
+                hostname: 'kibana'
+                ports:
+                        - '5601:5601'
+                depends_on:
+                        - elasticsearch
+                links:
+                        - elasticsearch
+                restart: always
+
+        logstash:
+                image: 'elastic/logstash:7.4.2'
+                container_name: 'logstash'
+                hostname: 'logstash'
+                links:
+                        - elasticsearch
+                restart: always
+                depends_on:
+                        - elasticsearch
+                volumes:
+                        - ./logstash:/logstash-config
+                command: logstash -f /logstash-config/logstash.conf --config.reload.automatic
+                restart: always
+
+        jenkins:
+                build:
+                        dockerfile: Dockerfile
+                        context: ./jenkins
+                container_name: 'jenkins'
+                hostname: 'jenkins'
+                ports:
+                        - '8080:8080'
+                        - '50000:50000'
+                links:
+                        - logstash
+                        - bot
+                volumes:
+                        - ./jenkins:/var/jenkins_home
+                restart: always
+        
+        bot:
+                build:
+                        dockerfile: ./Dockerfile
+                        context: .
+                container_name: 'bot'
+                hostname: 'bot'
+                ports:
+                        - '3000:3000'
+                links:
+                        - elasticsearch
+                        - kibana
+                volumes:
+                        - ./Bot:/etc
+                        - /etc/node_modules
+                restart: always

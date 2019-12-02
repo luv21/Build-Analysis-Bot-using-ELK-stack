@@ -1,3 +1,21 @@
+## Deployment
+
+We have used Docker and Ansible as our configuration management tools
+
+### Command to deploy Bot
+
+ansible-playbook deploy.yml -i hosts
+
+Note: credentials.json needs to be copied beforehand in 2 folders
+* credentials.json(in server) - For Bot to Slack Communication
+* credentials.json(in server/elasticsearch) - For Bot to elasticsearch communication
+
+* Also, we need Public keys for Host machines to clone the Bot Repo from Github
+
+## Screencast Video Links
+* Deployment: https://drive.google.com/file/d/1oa2YkRHDmnUlstoGkPxyCnOlHKNWSgnU/view?usp=sharing
+* Integration: https://drive.google.com/open?id=1NOJCQ2CZV44LFbitQw5cE2g5YAjKTmWF
+
 ## Acceptance Testing
 
 #### Pre requisites
