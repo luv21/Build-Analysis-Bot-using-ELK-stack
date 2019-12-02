@@ -30,9 +30,9 @@ async function getProjectData(projectName) {
   }
 }
 
-getProjectData("se_project").then(data=>{
-  // console.log(data)
-})
+// getProjectData("se_project").then(data=>{
+//   // console.log(data)
+// })
 
 exports.getBuild = getBuild;
 exports.getProjectData = getProjectData;

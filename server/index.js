@@ -11,7 +11,7 @@ let mock1;
 // Creates express app
 const app = express(); // The port used for Express server
 const PORT = 3000; // Starts server
-app.listen(process.env.PORT || PORT, function() {
+app.listen(process.env.PORT || PORT, function () {
   console.log("Bot is listening on port " + PORT);
 });
 
@@ -44,7 +44,7 @@ app.post("/", (req, res) => {
               );
             }
           });
-        } else if(build_number){
+        } else if (build_number) {
           data1.getBuild(project_name, build_number).then(results => {
             if (results) charts.generatePieChart(results);
             else {
@@ -61,7 +61,7 @@ app.post("/", (req, res) => {
             }
           });
         }
-        else{
+        else {
           request.post(
             {
               headers: { "content-type": "application/json" },
@@ -157,26 +157,29 @@ app.post("/complete", (req, res) => {
   res.send()
   data1
     .getBuild(req.body.project_name, req.body.build_no)
-    .then(function(results) {
-      if (req.body.build_status === "blue") {
-        body = messages.successMessage({
-          build_no: req.body.build_no,
-          repo_url: results.repo_url
-        });
-      } else {
-        body = messages.faiureMessage(results);
-      }
-      request.post(
-        {
-          headers: { "content-type": "application/json" },
-          url: config.HOOK_URL,
-          body: JSON.stringify(body)
-        },
-        (error, response, body) => {
-          console.log("response: ", response.statusCode);
-          // res.send(response);
+    .then(function (results) {
+      if (results) {
+        if (req.body.build_status === "blue") {
+          body = messages.successMessage({
+            build_no: req.body.build_no,
+            repo_url: results.repo_url
+          });
+        } else {
+          body = messages.faiureMessage(results);
         }
-      );
+        request.post(
+          {
+            headers: { "content-type": "application/json" },
+            url: config.HOOK_URL,
+            body: JSON.stringify(body)
+          },
+          (error, response, body) => {
+            console.log("response: ", response.statusCode);
+            // res.send(response);
+          }
+        );
+      }
+
     });
 });
 
