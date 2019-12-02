@@ -10,3 +10,5 @@
 [BOT link](BOT.md)
 
 [Process link](Process.md)
+
+[Deploy link](server/Deploy.md)
