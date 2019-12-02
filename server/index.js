@@ -109,7 +109,7 @@ app.post("/complete", (req, res) => {
   data1
     .getBuild(req.body.project_name, req.body.build_no)
     .then(function(results) {
-      if (req.body.build_status === "green") {
+      if (req.body.build_status === "blue") {
         body = messages.successMessage({
           build_no: req.body.build_no,
           repo_url: results.repo_url
