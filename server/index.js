@@ -28,7 +28,7 @@ app.post("/", (req, res) => {
   if (action_name) {
     switch (action_name) {
       case "analysis": {
-        if (!build_number) {
+        if (!build_number && project_name) {
           data1.getProjectData(project_name).then(result => {
             if (result) charts.generateProjectChart(result);
             else {
@@ -44,7 +44,7 @@ app.post("/", (req, res) => {
               );
             }
           });
-        } else {
+        } else if(build_number){
           data1.getBuild(project_name, build_number).then(results => {
             if (results) charts.generatePieChart(results);
             else {
@@ -60,6 +60,18 @@ app.post("/", (req, res) => {
               );
             }
           });
+        }
+        else{
+          request.post(
+            {
+              headers: { "content-type": "application/json" },
+              url: req.body.response_url,
+              body: JSON.stringify(messages.invalidSyntax())
+            },
+            (error, response, body) => {
+              console.log(response.statusCode);
+            }
+          );
         }
         break;
       }
