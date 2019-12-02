@@ -29,13 +29,13 @@ describe('testMain', function () {
     // TEST CASE...
     it('should find build1 status as FAILURE', async function () {
       // it is also possible to just return a promise, without using done.mostFrequentAssigneemostFrequentAssignee
-      let getBuild = await data1.getBuild("build1");
+      let getBuild = await data1.getBuild("se-project", "1");
       expect(getBuild.status).to.equal("FAILURE");
     });
 
     it('should find build2 status as SUCCESS - Alternate Flow', async function () {
       // it is also possible to just return a promise, without using done.mostFrequentAssigneemostFrequentAssignee
-      let getBuild = await data1.getBuild("build2");
+      let getBuild = await data1.getBuild("se-project", "2");
       expect(getBuild.status).to.equal("SUCCESS");
     });
 
