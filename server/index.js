@@ -154,6 +154,7 @@ app.post("/", (req, res) => {
 
 app.post("/complete", (req, res) => {
   let body;
+  res.send()
   data1
     .getBuild(req.body.project_name, req.body.build_no)
     .then(function(results) {
