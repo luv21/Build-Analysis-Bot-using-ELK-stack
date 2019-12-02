@@ -25,10 +25,6 @@ async function getProjectData(projectName) {
   return analytics.analyzeProject(data);
 }
 
-getBuild("se", "1").then(result=>{
-  console.log(result)
-    // console.log(messages.faiureMessage(result))
-})
 
 exports.getBuild = getBuild;
 // exports.getProjectData = getProjectData;
