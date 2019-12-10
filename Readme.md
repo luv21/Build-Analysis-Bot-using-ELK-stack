@@ -12,3 +12,5 @@
 [Process link](Process.md)
 
 [Deploy link](server/Deploy.md)
+
+[Report link](Report.md)
